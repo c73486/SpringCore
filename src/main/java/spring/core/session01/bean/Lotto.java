@@ -13,7 +13,6 @@ public class Lotto {
 	}
 	
 	public int getNumber() {
-		
 		return number;
 	}
 	
