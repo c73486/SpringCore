@@ -38,5 +38,42 @@
 		<constructor-arg index="2" value="0" />
 	</bean>
     
+	<!-- 利用p進行方法注入配置 -->
+	<bean id="author4" class="spring.core.session02.bean.Author" p:name="aaa" p:sex="中" p:age="18"/>
+	<!-- 利用c進行方法注入配置 -->
+	<bean id="author5" class="spring.core.session02.bean.Author" c:name="bbb" c:sex="中" c:age="81"/>
+	
+	<!-- Book -->
+    <bean id="book1" class="spring.core.session02.bean.Book"/>
+    <!-- Book方法注入 -->
+    <bean id="book2" class="spring.core.session02.bean.Book">
+    	<property name="name">
+			<value>Java</value>
+		</property>
+		<property name="price">
+			<value>500</value>
+		</property>
+		<property name="author" ref="author2" />
+	</bean>
+	<!-- Book建構子注入 -->
+    <bean id="book3" class="spring.core.session02.bean.Book">
+		<constructor-arg index="0" value="Spring" />
+		<constructor-arg index="1" value="600" />
+		<constructor-arg index="2" ref="author3" />
+	</bean>
+    
+	<!-- 利用p進行方法注入配置 -->
+	<bean id="book4" class="spring.core.session02.bean.Book" p:name="Python" p:price="450" p:author-ref="author4"/>
+	<!-- 利用c進行方法注入配置 -->
+	<bean id="book5" class="spring.core.session02.bean.Book" c:name="bbb" c:price="280" c:author-ref="author5"/>
+	
+	<!--Color與Size配置 -->
+	<bean id="white" class="spring.core.session02.bean.Color" p:name="白"/>
+	<bean id="a4" class="spring.core.session02.bean.Size" p:name="A4"/>
+	
+	<!-- Page自動綁定Color與Size -->
+	<!-- byType自動匹配 若超過一個可匹配就不可使用 -->
+	<bean id="paper1" class="spring.core.session02.bean.Paper" p:id="1" autowire="byType"/>
+	
 	
 </beans>
