@@ -11,8 +11,8 @@ import spring.core.session02.conf.JavaSpringConfig2;
 public class TestBook {
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("beans-config2.xml");
-		//ApplicationContext ctx = new AnnotationConfigApplicationContext(JavaSpringConfig2.class);
+		//ApplicationContext ctx = new ClassPathXmlApplicationContext("beans-config2.xml");
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(JavaSpringConfig2.class);
 		
 		//手動注入Ａuthor資料
 		Author author1 = ctx.getBean("author1",Author.class);

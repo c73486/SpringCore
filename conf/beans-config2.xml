@@ -67,13 +67,21 @@
 	<!-- 利用c進行方法注入配置 -->
 	<bean id="book5" class="spring.core.session02.bean.Book" c:name="bbb" c:price="280" c:author-ref="author5"/>
 	
-	<!--Color與Size配置 -->
-	<bean id="white" class="spring.core.session02.bean.Color" p:name="白"/>
-	<bean id="a4" class="spring.core.session02.bean.Size" p:name="A4"/>
+	<!-- Color 與 Size 配置 -->
+	<bean id="white" class="spring.core.session02.bean.Color" p:name="白" />
+	<bean id="a4" class="spring.core.session02.bean.Size" p:name="A4" />
+	<!--
+	<bean id="color" class="spring.core.session02.bean.Color" p:name="黃" />
+	<bean id="size" class="spring.core.session02.bean.Size" p:name="B5" />
+	-->
+	<!-- Paper 自動綁定 Color 與 Size -->
+	<!-- byType 自動匹配, 若超過一個可匹配就不可以使用 -->
+	<bean id="paper1" class="spring.core.session02.bean.Paper" p:id="1" autowire="byType" />
 	
-	<!-- Page自動綁定Color與Size -->
-	<!-- byType自動匹配 若超過一個可匹配就不可使用 -->
-	<bean id="paper1" class="spring.core.session02.bean.Paper" p:id="1" autowire="byType"/>
+	<bean id="paper2" class="spring.core.session02.bean.Paper" p:id="2" autowire="byName" />
+	 
+	<!-- 匹配順序 byName -> byType -->
+	<bean id="paper3" class="spring.core.session02.bean.Paper" p:id="3" autowire="constructor" />
 	
 	
 </beans>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"	
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+	<!-- 引用外部資源 -->
+	<context:property-placeholder location="data.properties" />
+	
+	<!-- 建立Clazz並使用外部注入資料 -->
+	<bean id="clazz1" class="spring.core.session03.bean.Clazz" p:id="${clazz.id}" p:name="${clazz.name}" p:credit="${clazz.credit}"/>
+	
+	<!-- 建立Clazz並直接注入資料 -->
+	<bean id="clazz2" class="spring.core.session03.bean.Clazz" p:id="2" p:name="C" p:credit="2" />
+	<bean id="clazz3" class="spring.core.session03.bean.Clazz" p:id="3" p:name="Math" p:credit="3"/>
+	
+	<!-- 學生1配置 -->
+	<bean id="student1" class="spring.core.session03.bean.Student" p:id="1" p:name="bear" >
+		<!-- 配置set集合 -->
+		<property name="clazzs">
+			<set>
+				<ref bean="clazz1"/>
+				<ref bean="clazz2"/>
+				<ref bean="clazz3"/>
+			</set>
+		</property>
+	</bean>
+	
+	<!-- 學生2配置 -->
+	<bean id="student2" class="spring.core.session03.bean.Student" p:id="2" p:name="fifi" >
+		<!-- 配置set集合 -->
+		<property name="clazzs">
+			<set>
+				<ref bean="clazz1"/>
+				<ref bean="clazz3"/>
+			</set>
+		</property>
+	</bean>
+	
+	<!-- 講師1配置 -->
+	<bean id="teacher1" class="spring.core.session03.bean.Teacher" p:id="1" p:name="Tess" >
+		<!-- Set學生列表配置 -->
+		<property name="students">
+			<set>
+				<ref bean="student1"/>
+				<ref bean="student2"/>				
+			</set>
+		</property>
+		<!-- List授課名稱列表配置 -->
+		<property name="subjects">
+			<list>
+				<value>Program</value>
+				<value>English</value>
+			</list>
+		</property>
+		<!-- Map薪資組合配置(map的每一個元素就是一個entry, entry包含key/value) -->
+		<property name="salary">
+			<map>
+				<entry key="base">
+					<value>40000</value>
+				</entry>
+				<entry key="addition">
+					<value>5000</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 利用util:set util:list util:map簡化配置 -->
+	<util:set id="students">
+		<ref bean="student1"/>
+		<ref bean="student2"/>
+	</util:set>
+	<util:list id="subjects">
+		<value>Health</value>
+		<value>Music</value>
+		<value>APP</value>
+	</util:list>
+	<util:map id="salary">
+		<entry>
+			<key>
+				<value>base</value>		
+			</key>
+				<value>50000</value>		
+		</entry>
+		<entry>
+			<key>
+				<value>addition</value>		
+			</key>
+				<value>6000</value>		
+		</entry>
+	</util:map>
+	
+	<!-- 講師2配置 -->
+	<bean id="teacher2" 
+		  class="spring.core.session03.bean.Teacher" 
+		  p:id="2" 
+		  p:name="bear" 
+		  p:students-ref="students" 
+		  p:subjects-ref="subjects" 
+		  p:salary-ref="salary" />
+		  
+	<!-- init-method, destroy-method配置 -->
+	<bean id="dbConn"
+		  class="spring.core.session03.bean.DBConn"
+		  init-method="begin"
+		  destroy-method="close"/>
+</beans>
