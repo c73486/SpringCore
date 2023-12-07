@@ -118,4 +118,9 @@
 		  class="spring.core.session03.bean.DBConn"
 		  init-method="begin"
 		  destroy-method="close"/>
+		  
+	<!-- 配置CarFactory而非Car -->
+	<bean id="carFactory" class="spring.core.session03.factory.CarFactory" />
+	
+	<!-- -->
 </beans>
